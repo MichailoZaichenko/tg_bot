@@ -2,8 +2,8 @@ import telebot
 import random
 from TOKEN import TOKEN
 import os
-
-bot = telebot.TeleBot(os.environ[TOKEN])
+# TODO add your Token from telegram
+bot = telebot.TeleBot(TOKEN)
 
 # list of cities to choose from 
 cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Philadelphia', 
@@ -31,10 +31,11 @@ def start(message):
     # send the chosen city to the user 
     bot.send_message(message.chat.id, "Which city am I thinking of? Hint: It's in the United States.")
 
-     # wait for user's answer 
+     # wait for user's answer
+    
     bot.register_next_step_handler(message, check_answer, city)
 
-    
+@bot.message_handler(func=lambda message: True)    
 def check_answer(message, city): 
 
     if message == city: 
@@ -54,3 +55,5 @@ def check_answer(message, city):
 
        # send the chosen newcity to the user  
         bot.send_message(message.chat)
+
+bot.infinity_polling()
