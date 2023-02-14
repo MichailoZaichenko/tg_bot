@@ -10,8 +10,9 @@ point = 0
 def start(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     itembtn1 = telebot.types.KeyboardButton('Ваши очки')
-    keyboard.add(itembtn1)
-    bot.send_message(message.chat.id, "Привет, {0.first_name}\nИграем в игру города Украины.\nДля старта введите название города.".format(message.from_user), reply_markup=keyboard)
+    itembtn2 = telebot.types.KeyboardButton('Использованые слова')
+    keyboard.add(itembtn1, itembtn2 )
+    bot.send_message(message.chat.id, "Привет, {0.first_name}. Давай поиграем в города Украини.\nТы первый.\n Введи название города чтоб начать!".format(message.from_user), reply_markup=keyboard)
 
 with open("koatuu.json", 'r', encoding='utf-8') as f:
     data = json.load(f)
@@ -19,15 +20,18 @@ with open("koatuu.json", 'r', encoding='utf-8') as f:
 @bot.message_handler(content_types=['text'])
 def echo_message(message):
     global point
+    use_list = []
     if message.text == "Ваши очки":
         bot.send_message(message.chat.id,point)
+    elif message.text == "Использованые слова":
+        bot.send_message(message.chat.id,use_list)
     else:
         if message.text in data:
-            use_list = []
-            use_list.append(message.text) 
+            use_list.append(message.text.capitalize())
             data.remove(message.text) 
-            if message.text in use_list:
-                bot.send_message(message.chat.id, "Вы уже использовали это слово")
+            # if message.text in use_list:
+            #     bot.send_message(message.chat.id, "Вы уже использовали это слово")
+            # else:
             for i in data:
                 if str(message.text[-1]).upper() == str(i[0]).upper():
                     bot.send_message(message.chat.id,i)
