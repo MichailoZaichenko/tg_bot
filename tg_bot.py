@@ -1,10 +1,10 @@
 import telebot
 import random
-from TOKEN import TOKEN
+# from TOKEN import TOKEN
 import os, json
 
 # TODO add your Token from telegram
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(os.getenv("TOKEN"))
 point = 0
 use_list = []
 @bot.message_handler(commands=['start'])
