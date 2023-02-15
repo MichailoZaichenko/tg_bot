@@ -6,25 +6,29 @@ import os, json, requests
 # TODO add your Token from telegram
 bot = telebot.TeleBot(TOKEN)
 point = 0
+use_list = []
 @bot.message_handler(commands=['start'])
 def start(message):
     keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    itembtn1 = telebot.types.KeyboardButton('Ваши очки')
+    itembtn1 = telebot.types.KeyboardButton('Мои очки')
     itembtn2 = telebot.types.KeyboardButton('Использованые слова')
     keyboard.add(itembtn1, itembtn2 )
-    bot.send_message(message.chat.id, "Привет, {0.first_name}. Давай поиграем в города Украини.\nТы первый.\n Введи название города чтоб начать!".format(message.from_user), reply_markup=keyboard)
+    bot.send_message(message.chat.id, "Привет, {0.first_name}. Давай поиграем в города Украини.\nТы первый.\n Введи название города чтоб начать!(Водите на англиском)\nЗа каждый правильний ответ вы получаэте 1 бал\nПосмотреть свои очки вы можете нажав на кнопку 'Мои очки'".format(message.from_user), reply_markup=keyboard)
 
-with open("koatuu.json", 'r', encoding='utf-8') as f:
-    data = json.load(f)
+with open("ua.json", 'r', encoding='utf-8') as f:
+    datas = json.load(f)
+
+data = [item['city'] for item in datas]
 
 @bot.message_handler(content_types=['text'])
 def echo_message(message):
     global point
-    use_list = []
-    if message.text == "Ваши очки":
+    global use_list 
+    if message.text == "Мои очки":
         bot.send_message(message.chat.id,point)
     elif message.text == "Использованые слова":
-        bot.send_message(message.chat.id,use_list)
+        for el in use_list:
+            bot.send_message(message.chat.id,el)
     else:
         if message.text in data:
             use_list.append(message.text.capitalize())
@@ -33,7 +37,7 @@ def echo_message(message):
             #     bot.send_message(message.chat.id, "Вы уже использовали это слово")
             # else:
             for i in data:
-                if str(message.text[-1]).upper() == str(i[0]).upper():
+                if str(message.text[-1]).capitalize() == str(i[0]).capitalize():
                     bot.send_message(message.chat.id,i)
                     point+=1
                     data.remove(i)
