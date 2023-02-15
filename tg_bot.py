@@ -1,7 +1,7 @@
 import telebot
 import random
 from TOKEN import TOKEN
-import os, json, requests
+import os, json
 
 # TODO add your Token from telegram
 bot = telebot.TeleBot(TOKEN)
