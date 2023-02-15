@@ -13,7 +13,7 @@ def start(message):
     itembtn1 = telebot.types.KeyboardButton('Мои очки')
     itembtn2 = telebot.types.KeyboardButton('Использованые слова')
     keyboard.add(itembtn1, itembtn2 )
-    bot.send_message(message.chat.id, "Привет, {0.first_name}. Давай поиграем в города Украини.\nТы первый.\n Введи название города чтоб начать!(Водите на англиском)\nЗа каждый правильний ответ вы получаэте 1 бал\nПосмотреть свои очки вы можете нажав на кнопку 'Мои очки'".format(message.from_user), reply_markup=keyboard)
+    bot.send_message(message.chat.id, "Hello, {0.first_name}. Let's play in the cities of Ukraine.\nYou start first.\n Enter city name to get started!\nFor each correct answer you get 1 point\nYou can view your points by clicking on the 'My points' button".format(message.from_user), reply_markup=keyboard)
 
 with open("ua.json", 'r', encoding='utf-8') as f:
     datas = json.load(f)
