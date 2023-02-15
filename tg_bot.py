@@ -1,6 +1,6 @@
 import telebot
 import random
-from config import TOKEN
+from TOKEN import TOKEN
 import os, json
 
 # TODO add your Token from telegram
